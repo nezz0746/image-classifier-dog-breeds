@@ -67,7 +67,7 @@ def classify_images(images_dir, results_dic, model):
     """
     for image_name, pet_label in results_dic.items():
         image_path = '{}/{}'.format(images_dir, image_name)
-        image_classification = classifier(image_path, model).lower()
+        image_classification = classifier(image_path, model).lower().strip()
         results_dic[image_name].append(image_classification)
         if pet_label[0] in image_classification:
             results_dic[image_name].append(1)
