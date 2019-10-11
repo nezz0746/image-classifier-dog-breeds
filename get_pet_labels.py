@@ -17,7 +17,7 @@
 #
 ##
 # Imports python modules
-from os import listdir
+from os import listdir, path
 
 # TODO 2: Define get_pet_labels function below please be certain to replace None
 #       in the return statement with results_dic dictionary that you create 
@@ -47,16 +47,21 @@ def get_pet_labels(image_dir):
     pet_labels = list()
     filename_list = listdir(image_dir)
     for filename in filename_list:
-        pet_labels.append(' '.join([element.lower() for element in filename.split('_') if element.isalpha()]))
+        file_label = path.splitext(filename)[0]
+        pet_labels.append(' '.join([element.lower() for element in file_label.split('_') if element.isalpha()]))
     
     # Populating result_dic
     for idx in range(0, len(filename_list), 1):
-        if filename_list[idx] not in result_dic:
-             result_dic[filename_list[idx]] = [pet_labels[idx]]
+        if filename.startswith('.'):
+            # Skip files that start with '.'
+            pass
         else:
-             print("** Warning: Key=", filename_list[idx], 
-                   "already exists in results_dic with value =", 
-                   result_dic[filename_list[idx]])
+            if filename_list[idx] not in result_dic:
+                result_dic[filename_list[idx]] = [pet_labels[idx]]
+            else:
+                print("** Warning: Key=", filename_list[idx], 
+                      "already exists in results_dic with value =", 
+                          result_dic[filename_list[idx]])
     
     # Printing result
     print("\nPrinting all key-value pairs in dictionary results_dic:")
